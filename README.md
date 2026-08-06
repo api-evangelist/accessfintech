@@ -42,5 +42,30 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AccessFintech is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
+AccessFintech operates **Synergy**, a post-trade data and workflow network for capital markets that
+connects buy-side firms, broker-dealers, custodians, hedge funds, order management systems and
+vendors onto a shared view of trade, settlement and collateral data. It normalizes fragmented data
+across securities, derivatives and alternatives, detects breaks across counterparties, and lets the
+parties to a trade resolve exceptions on one record instead of by email and reconciliation files.
+
+## API surface
+
+AccessFintech markets Synergy as API-first, and the API is real — but it is **not public**. There is
+no developer portal, no API reference, no OpenAPI or AsyncAPI specification, no SDK, and no
+self-serve sign-up. Credentials are issued to onboarded network members.
+
+What is publicly verifiable:
+
+| Surface | Finding |
+|---|---|
+| GraphQL | `https://api.accessfintech.com/gql` — configured in the Synergy web client's own public production bundle. Anonymous introspection refused at the CDN edge (403). |
+| REST | Same origin, via an `apollo-link-rest` link. `/api/docs` returns a real `401` (an authenticated docs route, not the SPA catch-all). |
+| Identity | Okta-hosted issuer at `https://login.accessfintech.com` serving full OIDC Discovery and RFC 8414 metadata anonymously — PKCE S256, DPoP, PAR, device code, dynamic client registration. |
+| Multi-party context | Requests carry `x-context-org-id` (acting organization), `x-csrf-token`, `x-correlation-id`. |
+
+Not published: OpenAPI, AsyncAPI/webhooks, MCP server, A2A agent card, `security.txt`, trust center,
+status page, changelog, CLI, sandbox, or any API client SDK.
+
+- https://www.accessfintech.com/
+- https://www.accessfintech.com/platform/
 - https://forgeglobal.com/accessfintech_stock/

@@ -1,0 +1,64 @@
+generated: '2026-08-06'
+method: searched
+source: https://registry.npmjs.org/-/v1/search?text=accessfintech
+note: >-
+  AccessFintech publishes no API client library in any public registry. The single
+  first-party package found is a React UI component library used by the Synergy front end.
+  It is recorded because it is genuinely first-party, but it is NOT an SDK for the API and
+  no `SDKs` pointer is wired in apis.yml on the strength of it.
+
+registries_searched:
+  - {registry: npm, query: accessfintech, results: 1}
+  - {registry: npm, query: 'scope:aftui', results: 0}
+  - {registry: pypi, query: accessfintech, status: 404}
+  - {registry: pypi, query: access-fintech, status: 404}
+  - {registry: pypi, query: synergy-accessfintech, status: 404}
+
+packages:
+  - language: javascript
+    registry: npm
+    name: '@aftui/maggie'
+    version: 1.6.0
+    url: https://www.npmjs.com/package/@aftui/maggie
+    install: npm install @aftui/maggie
+    repository: https://github.com/accessfintech/maggie
+    repository_public: false
+    official: true
+    official_evidence: >-
+      Published under the AccessFintech-controlled @aftui scope, declares
+      github.com/accessfintech/maggie as its repository, and is maintained by
+      adamw-af / treeves / sagi-aft.
+    kind: ui-components
+    api_client: false
+
+sdk_count: 0
+sdk_note: >-
+  Zero official API client libraries. Consistent with the rest of the profile: the Synergy
+  API is delivered to onboarded network members under an integration engagement rather than
+  through a self-serve developer program.
+
+source_code:
+  github_org: https://github.com/accessfintech
+  github_org_created: '2018-02-27'
+  public_repos: 4
+  repos:
+    - {name: docs, url: 'https://github.com/accessfintech/docs', note: 'empty — 6-byte README, untouched since 2021-07-20'}
+    - {name: GraphQlClientGenerator, url: 'https://github.com/accessfintech/GraphQlClientGenerator', language: 'C#', note: 'fork of an upstream GraphQL C# client generator'}
+    - {name: cmdk, url: 'https://github.com/accessfintech/cmdk', language: TypeScript, note: 'fork of the upstream cmdk React command menu'}
+    - {name: resize-spike, url: 'https://github.com/accessfintech/resize-spike', language: JavaScript, note: spike}
+  note: >-
+    No first-party API tooling is published in the org. The presence of a C# GraphQL client
+    generator fork is a corroborating signal for the GraphQL surface recorded in
+    conventions/accessfintech-conventions.yml.
+
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+    - url: https://registry.npmjs.org/@aftui/maggie
+      status: 200
+    - url: https://api.github.com/orgs/accessfintech
+      status: 200
+    - url: https://api.github.com/repos/accessfintech/maggie
+      status: 404
+    - url: https://pypi.org/pypi/accessfintech/json
+      status: 404

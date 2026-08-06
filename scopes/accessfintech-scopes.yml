@@ -1,0 +1,73 @@
+generated: '2026-08-06'
+method: probed
+source: https://login.accessfintech.com/.well-known/openid-configuration
+note: >-
+  IMPORTANT SCOPE OF THIS FILE. AccessFintech publishes no OpenAPI and no public scopes /
+  permissions reference, so nothing here is a business scope for the Synergy API. These are
+  the scopes the company's own OpenID Connect issuer advertises in its anonymous discovery
+  document. The `openid`-family scopes are the standard OIDC set the Synergy sign-in flow
+  can request; the `okta.*` scopes belong to the Okta org management authorization server
+  that the same issuer fronts, not to the Synergy data API. Recorded as observed, not as a
+  claim about AccessFintech's API authorization model.
+
+schemes:
+  - name: openid-connect
+    issuer: https://login.accessfintech.com
+    source: https://login.accessfintech.com/.well-known/openid-configuration
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://login.accessfintech.com/oauth2/v1/authorize
+        tokenUrl: https://login.accessfintech.com/oauth2/v1/token
+      - flow: implicit
+        authorizationUrl: https://login.accessfintech.com/oauth2/v1/authorize
+      - flow: deviceCode
+        deviceAuthorizationUrl: https://login.accessfintech.com/oauth2/v1/device/authorize
+        tokenUrl: https://login.accessfintech.com/oauth2/v1/token
+
+scopes:
+  - scope: openid
+    description: Request an ID token; required to initiate an OpenID Connect flow.
+    kind: oidc-standard
+    flows: [authorizationCode, implicit, deviceCode]
+  - scope: profile
+    description: Basic profile claims (name, preferred_username, locale, updated_at).
+    kind: oidc-standard
+  - scope: email
+    description: The email and email_verified claims.
+    kind: oidc-standard
+  - scope: address
+    description: The address claim.
+    kind: oidc-standard
+  - scope: phone
+    description: The phone_number claim.
+    kind: oidc-standard
+  - scope: offline_access
+    description: Issue a refresh token so the client can renew access without re-prompting.
+    kind: oidc-standard
+  - scope: groups
+    description: Group memberships for the authenticated user — the entitlement carrier for tenant/org access in the Synergy UI.
+    kind: okta
+
+org_management_scopes:
+  note: >-
+    The RFC 8414 metadata document additionally advertises the full Okta org management
+    scope family (okta.users.*, okta.groups.*, okta.apps.*, okta.policies.*, okta.logs.read,
+    okta.sessions.*, and ~40 more read/manage pairs). These are Okta platform administration
+    scopes exposed by every Okta org, not AccessFintech product scopes, and they are listed
+    here only so the observation is not silently dropped. See
+    well-known/accessfintech-oauth-authorization-server.json for the verbatim list.
+  count: 82
+  source: well-known/accessfintech-oauth-authorization-server.json
+
+synergy_api_scopes: unknown
+synergy_api_scopes_note: >-
+  The Synergy GraphQL/REST surface at https://api.accessfintech.com is behind a CloudFront
+  WAF and an authenticated session; no scope or permission reference is published publicly.
+
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+    - url: https://login.accessfintech.com/.well-known/openid-configuration
+      status: 200
+    - url: https://login.accessfintech.com/.well-known/oauth-authorization-server
+      status: 200

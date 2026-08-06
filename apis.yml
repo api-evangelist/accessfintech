@@ -1,23 +1,114 @@
 aid: accessfintech
 name: AccessFintech
-description: 'AccessFintech is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  AccessFintech operates Synergy, a post-trade data and workflow network for capital
+  markets that connects buy-side firms, broker-dealers, custodians, hedge funds, order
+  management systems and vendors onto a shared view of trade, settlement and collateral
+  data. The platform normalizes fragmented data across securities, derivatives and
+  alternatives, detects breaks and exceptions across counterparties, and lets the parties
+  to a trade resolve them collaboratively on a single record instead of by email and
+  reconciliation files. AccessFintech describes Synergy as API-first, with bi-directional
+  integrations, ingestion of JSON, XML, CSV and delimited text over push or pull, and
+  Snowflake-native data sharing on AWS. The API surface is not self-serve: the Synergy
+  application and its GraphQL and REST endpoints sit behind an Okta-backed customer login
+  at login.accessfintech.com, and no public developer portal, reference or machine-readable
+  specification is published.
 url: https://raw.githubusercontent.com/api-evangelist/accessfintech/refs/heads/main/apis.yml
+image: https://www.accessfintech.com/wp-content/uploads/2026/05/favicon.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
-apis: []
+- Financial Services
+- Capital Markets
+- Post-Trade
+- Settlement
+- Data Networks
+- Reconciliation
+- Fintech
+- GraphQL
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Synergy Platform API
+  description: >-
+    The API surface behind Synergy, AccessFintech's post-trade collaboration network. The
+    shipped web client calls a GraphQL endpoint at https://api.accessfintech.com/gql
+    (operation name mirrored into the query string as ?operation=<name>) alongside a REST
+    surface on the same origin, authenticated by an Okta-issued session and scoped per
+    acting organization via an x-context-org-id header. Access is granted to onboarded
+    network members; there is no public reference, specification or sign-up.
+  humanURL: https://www.accessfintech.com/platform/
+  baseURL: https://api.accessfintech.com
+  tags:
+  - Post-Trade
+  - Capital Markets
+  - GraphQL
+  properties:
+  - type: Authentication
+    url: authentication/accessfintech-authentication.yml
+  - type: OAuthScopes
+    url: scopes/accessfintech-scopes.yml
+  - type: Conventions
+    url: conventions/accessfintech-conventions.yml
 common:
 - type: Website
-  url: https://forgeglobal.com/accessfintech_stock/
+  url: https://www.accessfintech.com/
+- type: Blog
+  url: https://www.accessfintech.com/blog/
+- type: Support
+  url: https://www.accessfintech.com/contact/
+- type: Login
+  url: https://login.accessfintech.com/
+- type: PrivacyPolicy
+  url: https://www.accessfintech.com/privacy-policy/
+- type: GitHubOrganization
+  url: https://github.com/accessfintech
+- type: Authentication
+  url: authentication/accessfintech-authentication.yml
+- type: OAuthScopes
+  url: scopes/accessfintech-scopes.yml
+- type: WellKnown
+  url: well-known/accessfintech-well-known.yml
+- type: Conformance
+  url: conformance/accessfintech-conformance.yml
+- type: Conventions
+  url: conventions/accessfintech-conventions.yml
+- type: Packages
+  url: packages/accessfintech-packages.yml
+- type: LLMsTxt
+  url: llms/accessfintech-llms.txt
+- type: DomainSecurity
+  url: security/accessfintech-domain-security.yml
+x-enrichment:
+  date: '2026-08-06'
+  status: minimal
+  artifacts_added: 10
+  pass: local-v1
+x-coverage:
+  state: gated
+  reason: customer-only-docs
+  detail: >-
+    The Synergy API is real and reachable — the shipped web client calls GraphQL at
+    https://api.accessfintech.com/gql — but AccessFintech publishes no developer site at all:
+    api.accessfintech.com answers every unknown path with the same 4700-byte React shell,
+    /api/docs returns a bare 401, and anonymous GraphQL introspection is refused with a 403 at
+    the CloudFront edge, so the contract is readable only with an onboarded member's session.
+  evidence:
+    - url: https://api.accessfintech.com/gql
+      status: 403
+    - url: https://api.accessfintech.com/api/docs
+      status: 401
+    - url: https://api.accessfintech.com/openapi.json
+      status: 403
+    - url: https://www.accessfintech.com/developers/
+      status: 404
+    - url: https://login.accessfintech.com/.well-known/openid-configuration
+      status: 200
+  checked: '2026-08-06'

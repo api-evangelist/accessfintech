@@ -1,0 +1,132 @@
+generated: '2026-08-06'
+method: probed
+source: >-
+  https://api.accessfintech.com/assets/apollo-client-nEoXJmCU.js and
+  https://api.accessfintech.com/assets/index-Cxc8YJZl.js (Synergy public production bundle)
+note: >-
+  AccessFintech publishes no developer documentation, so these conventions are not read from
+  a docs site. They are observed in the Synergy web application's own publicly served
+  JavaScript — the client the company ships to browsers — which is the only public statement
+  of how its API is called. Everything below is a header, path or transport the shipped client
+  demonstrably uses. Anything not observable without an authenticated session is recorded as
+  unknown; nothing is inferred to fill a gap.
+
+surface:
+  primary: graphql
+  graphql:
+    endpoint: https://api.accessfintech.com/gql
+    method: POST
+    operation_naming: >-
+      The client appends the GraphQL operation name to the URL as a query parameter for
+      observability/routing — POST /gql?operation=<operationName> — while still sending the
+      standard JSON body. Unusual, and worth knowing before proxying or caching the endpoint.
+    introspection: gated
+    introspection_status: 403
+    introspection_note: >-
+      Anonymous POST to /gql is refused at the CloudFront edge with a 403. The SDL was not
+      captured and has not been reconstructed.
+    client: Apollo Client (apollo-link-rest also configured against the same origin)
+  rest:
+    base: https://api.accessfintech.com
+    note: >-
+      An apollo-link-rest RestLink is configured against the same origin alongside the GraphQL
+      link, so a REST surface coexists with the GraphQL one. No public route inventory exists.
+    observed_routes:
+      - path: /api/docs
+        status: 401
+        note: >-
+          Returns a bare 401 with an empty body — a real authenticated route, not the SPA
+          catch-all. This is the closest thing to an API reference AccessFintech serves, and
+          it requires a session.
+      - path: /api/auth/login
+      - path: /api/auth/logout
+      - path: /api/auth/sso
+
+authentication:
+  style: OpenID Connect session (Okta) + anti-CSRF token
+  details: authentication/accessfintech-authentication.yml
+
+request_headers:
+  - name: x-csrf-token
+    purpose: Anti-CSRF token echoed on every mutating request by the shipped client.
+    required: true
+  - name: x-context-org-id
+    purpose: >-
+      Selects the acting organization for the request. Synergy is a multi-party network, so a
+      single authenticated principal can act in more than one organizational context; this
+      header is how the client disambiguates.
+    required: true
+  - name: x-correlation-id
+    purpose: Per-request correlation identifier generated client-side for distributed tracing.
+    required: false
+  - name: x-telemetry-id
+    purpose: Grafana Faro session identifier, attached when a telemetry session is active.
+    required: false
+
+tracing:
+  request_id_header: x-correlation-id
+  client_telemetry: Grafana Faro (window.faro) — errors are pushed with type graphql or network.
+
+idempotency:
+  supported: unknown
+  note: >-
+    No idempotency key header, parameter or documented retry contract is observable in the
+    public client or on any public page. NOT asserted, and deliberately no Idempotency
+    pointer is wired in apis.yml.
+
+pagination:
+  style: unknown
+  note: Not observable without an authenticated session; GraphQL introspection is refused.
+
+error_envelope:
+  graphql: >-
+    Standard GraphQL errors array — the client reads graphQLErrors[] with message, locations
+    and path, and networkError separately.
+  rest: unknown
+  problem_details_rfc9457: unknown
+
+rate_limiting:
+  signaled: unknown
+  note: No rate-limit headers or published limits are publicly observable.
+
+versioning:
+  api: unknown
+  application_build: '2.6695.2.12706'
+  application_build_source: https://api.accessfintech.com/assets/environment-CyTS6k-j.js
+  environments:
+    - production (app.accessfintech.com)
+    - staging (staging.app.accessfintech.com, staging-east-2, staging-regression, staging-rc)
+    - nightly (nightly.app.accessfintech.com, regression.app.accessfintech.com)
+  note: >-
+    The environment map above is enumerated verbatim from the shipped bundle's environment
+    resolver. Non-production hosts were not probed.
+
+data_formats:
+  ingest: >-
+    "Accept any structured data format — JSON, XML, CSV, and delimited text" and "Ingest data
+    via push or pull methods to support both real-time and asynchronous workflows"
+    (https://www.accessfintech.com/platform/).
+  sharing: Snowflake-native integration for governed, real-time data sharing (same source).
+
+cross_links:
+  authentication: authentication/accessfintech-authentication.yml
+  scopes: scopes/accessfintech-scopes.yml
+  conformance: conformance/accessfintech-conformance.yml
+  well_known: well-known/accessfintech-well-known.yml
+  security: security/accessfintech-domain-security.yml
+
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+    - url: https://api.accessfintech.com/assets/apollo-client-nEoXJmCU.js
+      status: 200
+    - url: https://api.accessfintech.com/assets/index-Cxc8YJZl.js
+      status: 200
+    - url: https://api.accessfintech.com/assets/environment-CyTS6k-j.js
+      status: 200
+    - url: https://api.accessfintech.com/api/docs
+      status: 401
+    - url: https://api.accessfintech.com/gql
+      status: 403
+    - url: https://www.accessfintech.com/platform/
+      status: 200

@@ -1,0 +1,103 @@
+generated: '2026-08-06'
+method: probed
+source: https://login.accessfintech.com/.well-known/openid-configuration
+docs: https://www.accessfintech.com/platform/
+note: >-
+  AccessFintech publishes no OpenAPI, so this profile is not derived from a spec. It is
+  probed directly from the OpenID Connect discovery document the company's identity host
+  serves anonymously, and corroborated by the authentication code in the Synergy web
+  application's own public production JavaScript bundle.
+
+summary:
+  types: [openIdConnect, oauth2]
+  identity_provider: Okta (customer-branded org at login.accessfintech.com)
+  issuer: https://login.accessfintech.com
+  oauth2_flows: [authorizationCode, implicit, refreshToken, password, deviceCode]
+  pkce: true
+  pkce_methods: [S256]
+  dpop: true
+  par: true
+  dynamic_client_registration: true
+  mtls: false
+  api_key: false
+  enterprise_sso: >-
+    SSO/SAML is advertised on the platform page as a customer-configurable option;
+    the Synergy app exposes an /api/auth/sso route.
+
+schemes:
+  - name: openid-connect
+    type: openIdConnect
+    openIdConnectUrl: https://login.accessfintech.com/.well-known/openid-configuration
+    issuer: https://login.accessfintech.com
+    source: probed
+    endpoints:
+      authorization: https://login.accessfintech.com/oauth2/v1/authorize
+      token: https://login.accessfintech.com/oauth2/v1/token
+      userinfo: https://login.accessfintech.com/oauth2/v1/userinfo
+      jwks: https://login.accessfintech.com/oauth2/v1/keys
+      registration: https://login.accessfintech.com/oauth2/v1/clients
+      introspection: https://login.accessfintech.com/oauth2/v1/introspect
+      revocation: https://login.accessfintech.com/oauth2/v1/revoke
+      end_session: https://login.accessfintech.com/oauth2/v1/logout
+      device_authorization: https://login.accessfintech.com/oauth2/v1/device/authorize
+      pushed_authorization_request: https://login.accessfintech.com/oauth2/v1/par
+    grant_types:
+      - authorization_code
+      - implicit
+      - refresh_token
+      - password
+      - urn:ietf:params:oauth:grant-type:device_code
+      - urn:okta:params:oauth:grant-type:otp
+      - urn:okta:params:oauth:grant-type:oob
+    response_types: [code, id_token, code id_token, code token, id_token token, code id_token token]
+    token_endpoint_auth_methods:
+      - client_secret_basic
+      - client_secret_post
+      - client_secret_jwt
+      - private_key_jwt
+      - none
+    code_challenge_methods: [S256]
+    id_token_signing_alg_values: [RS256]
+    subject_types: [public]
+    request_parameter_supported: true
+    request_object_signing_alg_values: [HS256, HS384, HS512, RS256, RS384, RS512, ES256, ES384, ES512]
+
+  - name: synergy-session
+    type: cookie
+    description: >-
+      The Synergy web application authenticates against the Okta org's Authentication API
+      (POST /api/v1/authn) and then carries a session cookie, with an anti-CSRF token
+      echoed on every request as the x-csrf-token header and the acting organization
+      supplied as x-context-org-id.
+    source: >-
+      https://api.accessfintech.com/assets/index-Cxc8YJZl.js and
+      https://api.accessfintech.com/assets/apollo-client-nEoXJmCU.js (public production bundle)
+    session_endpoints:
+      - POST https://login.accessfintech.com/api/v1/authn
+      - DELETE https://login.accessfintech.com/api/v1/sessions/me
+    app_routes:
+      - /api/auth/login
+      - /api/auth/logout
+      - /api/auth/sso
+    headers:
+      csrf: x-csrf-token
+      organization_context: x-context-org-id
+      correlation: x-correlation-id
+
+gated: true
+gated_note: >-
+  There is no public developer registration path. Credentials for the Synergy API surface
+  are issued to onboarded network members; the OIDC metadata above is the only part of the
+  authentication contract that is publicly readable.
+
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+    - url: https://login.accessfintech.com/.well-known/openid-configuration
+      status: 200
+    - url: https://login.accessfintech.com/.well-known/oauth-authorization-server
+      status: 200
+    - url: https://api.accessfintech.com/assets/index-Cxc8YJZl.js
+      status: 200
+    - url: https://api.accessfintech.com/api/docs
+      status: 401

@@ -1,0 +1,109 @@
+generated: '2026-08-06'
+method: probed
+source: https://login.accessfintech.com/.well-known/openid-configuration
+summary: >-
+  AccessFintech publishes no /.well-known/ discovery surface on its marketing site
+  (www.accessfintech.com) or on the Synergy application hosts (api./app.accessfintech.com,
+  which answer every unknown path with the React SPA shell or an S3 AccessDenied).
+  The one genuinely public, anonymous, machine-readable discovery document the company
+  serves is on its Okta-hosted identity host, login.accessfintech.com, which returns a
+  full OpenID Connect discovery document (OIDC Discovery 1.0) and an RFC 8414 OAuth 2.0
+  Authorization Server Metadata document.
+
+hosts:
+  - host: https://login.accessfintech.com
+    role: identity provider (Okta-hosted; issuer for Synergy sign-in)
+    documents:
+      - path: /.well-known/openid-configuration
+        spec: OpenID Connect Discovery 1.0
+        status: 200
+        content_type: application/json
+        file: accessfintech-openid-configuration.json
+      - path: /.well-known/oauth-authorization-server
+        spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+        status: 200
+        content_type: application/json
+        file: accessfintech-oauth-authorization-server.json
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/security.txt
+        status: 405
+
+  - host: https://www.accessfintech.com
+    role: marketing site (WordPress)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+
+  - host: https://api.accessfintech.com
+    role: Synergy application / API host (CloudFront + S3 SPA origin)
+    note: >-
+      Anonymous requests with a non-browser User-Agent are refused at the CloudFront edge
+      with a 403. With a browser User-Agent, extensionless paths return the Synergy SPA
+      shell (identical 4700-byte HTML for every unknown path — a catch-all, not a document),
+      and paths with a file extension return an S3 AccessDenied 403. No /.well-known/
+      document is actually served.
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        result: spa-catch-all
+        note: returns the 4700-byte Synergy SPA shell, not JSON — rejected as a false positive
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        result: spa-catch-all
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        result: spa-catch-all
+      - path: /.well-known/api-catalog
+        status: 200
+        result: spa-catch-all
+      - path: /.well-known/security.txt
+        status: 403
+        result: s3-access-denied
+      - path: /.well-known/agent-card.json
+        status: 403
+        result: s3-access-denied
+      - path: /.well-known/agent.json
+        status: 403
+        result: s3-access-denied
+
+  - host: https://app.accessfintech.com
+    role: Synergy application host (same CloudFront/S3 SPA origin as api.)
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        result: s3-access-denied
+      - path: /.well-known/agent-card.json
+        status: 403
+        result: s3-access-denied
+      - path: /.well-known/agent.json
+        status: 403
+        result: s3-access-denied
+
+security_txt: none
+api_catalog: none
+agent_card: none
+
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+    - url: https://login.accessfintech.com/.well-known/openid-configuration
+      status: 200
+    - url: https://login.accessfintech.com/.well-known/oauth-authorization-server
+      status: 200
+    - url: https://www.accessfintech.com/.well-known/security.txt
+      status: 404
+    - url: https://api.accessfintech.com/.well-known/agent-card.json
+      status: 403

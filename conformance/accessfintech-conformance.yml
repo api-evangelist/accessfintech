@@ -1,0 +1,145 @@
+generated: '2026-08-06'
+method: probed
+source: https://login.accessfintech.com/.well-known/openid-configuration
+note: >-
+  Derived only from surfaces that could be read anonymously: the OIDC/OAuth discovery
+  documents on the identity host, and the Synergy web application's own public production
+  JavaScript bundle. AccessFintech publishes no OpenAPI, no AsyncAPI, and no public
+  compliance or certification page, so every standard that would normally be asserted from
+  a spec is recorded as unknown rather than false.
+
+standards:
+  - id: oidc-discovery-1.0
+    name: OpenID Connect Discovery 1.0
+    conforms: true
+    evidence: >-
+      https://login.accessfintech.com/.well-known/openid-configuration returns 200
+      application/json with issuer, authorization_endpoint, token_endpoint, userinfo_endpoint
+      and jwks_uri.
+
+  - id: oidc-core-1.0
+    name: OpenID Connect Core 1.0
+    conforms: true
+    evidence: >-
+      Issuer advertises id_token_signing_alg_values_supported [RS256], subject_types_supported
+      [public], and the standard OIDC claim set.
+
+  - id: rfc8414-oauth-authorization-server-metadata
+    name: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    conforms: true
+    evidence: >-
+      https://login.accessfintech.com/.well-known/oauth-authorization-server returns 200
+      application/json.
+
+  - id: oauth2-rfc6749
+    name: OAuth 2.0
+    conforms: true
+    evidence: >-
+      grant_types_supported includes authorization_code, implicit, refresh_token and password;
+      token/authorization endpoints published.
+
+  - id: rfc7636-pkce
+    name: RFC 7636 PKCE
+    conforms: true
+    evidence: code_challenge_methods_supported = [S256].
+
+  - id: rfc9126-par
+    name: RFC 9126 Pushed Authorization Requests
+    conforms: true
+    evidence: pushed_authorization_request_endpoint = https://login.accessfintech.com/oauth2/v1/par
+
+  - id: rfc9449-dpop
+    name: RFC 9449 DPoP (sender-constrained tokens)
+    conforms: true
+    evidence: dpop_signing_alg_values_supported = [RS256, RS384, RS512, ES256, ES384, ES512].
+
+  - id: rfc7591-dynamic-client-registration
+    name: RFC 7591 Dynamic Client Registration
+    conforms: true
+    evidence: registration_endpoint = https://login.accessfintech.com/oauth2/v1/clients
+
+  - id: rfc7662-token-introspection
+    name: RFC 7662 OAuth 2.0 Token Introspection
+    conforms: true
+    evidence: introspection_endpoint published with client auth methods including private_key_jwt.
+
+  - id: rfc7009-token-revocation
+    name: RFC 7009 OAuth 2.0 Token Revocation
+    conforms: true
+    evidence: revocation_endpoint = https://login.accessfintech.com/oauth2/v1/revoke
+
+  - id: rfc8628-device-authorization-grant
+    name: RFC 8628 OAuth 2.0 Device Authorization Grant
+    conforms: true
+    evidence: device_authorization_endpoint published; device_code grant advertised.
+
+  - id: saml2-sso
+    name: SAML 2.0 enterprise SSO
+    conforms: true
+    evidence: >-
+      "SSO/SAML" named on https://www.accessfintech.com/platform/; the Synergy application
+      exposes an /api/auth/sso route in its public bundle.
+
+  - id: graphql
+    name: GraphQL
+    conforms: true
+    evidence: >-
+      The Synergy application ships Apollo Client configured against ${origin}/gql
+      (https://api.accessfintech.com/assets/apollo-client-nEoXJmCU.js). The endpoint exists;
+      introspection is refused anonymously (403 at the CloudFront edge), so the SDL was not
+      captured and is NOT reproduced here.
+
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: >-
+      No OpenAPI/Swagger document at any probed location on api., app., www. or login.
+      accessfintech.com. See x-coverage in apis.yml.
+
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: No published event/streaming specification found.
+
+  - id: rfc9457-problem-details
+    name: RFC 9457 Problem Details
+    conforms: unknown
+    evidence: Error envelope is not publicly observable — the API requires an authenticated session.
+
+  - id: rfc9116-security-txt
+    name: RFC 9116 security.txt
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt returns 404 on www.accessfintech.com and is not served on the
+      application hosts.
+
+  - id: a2a
+    name: A2A Agent Card
+    conforms: false
+    evidence: >-
+      /.well-known/agent-card.json and /.well-known/agent.json miss on every host
+      (404 on www. and login.; 403 S3 AccessDenied on api. and app.).
+
+  - id: soc2
+    name: SOC 2
+    conforms: unknown
+    evidence: No public trust center or certification page; no compliance claim found on the site.
+
+  - id: iso27001
+    name: ISO/IEC 27001
+    conforms: unknown
+    evidence: No public trust center or certification page; no compliance claim found on the site.
+
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+    - url: https://login.accessfintech.com/.well-known/openid-configuration
+      status: 200
+    - url: https://login.accessfintech.com/.well-known/oauth-authorization-server
+      status: 200
+    - url: https://api.accessfintech.com/gql
+      status: 403
+    - url: https://www.accessfintech.com/.well-known/security.txt
+      status: 404
+    - url: https://www.accessfintech.com/trust/
+      status: 404

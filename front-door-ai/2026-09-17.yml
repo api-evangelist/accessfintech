@@ -1,0 +1,27 @@
+# Front Door AI Index — accessfintech — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: accessfintech
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.accessfintech.com
+  final_host: www.accessfintech.com
+  ownership: own
+  owner: accessfintech
+  shares_host_with: null
+  inherited_from: null
+  verdict: silent
+  score: 0
+  host_score: 0
+  density: 0.0
+  words: 762
+  tiers:
+    agentic: 0
+    core: 0
+    model: 0
+  ambiguous: 5
+  top_terms:
+    automation: 2
+    intelligence: 2
+    smart: 1

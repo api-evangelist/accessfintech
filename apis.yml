@@ -47,7 +47,7 @@ created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
-- Financial-Services
+- Financial Services
 - Capital Markets
 - Post-Trade
 - Settlement
@@ -65,6 +65,7 @@ tags_raw:
 - Reconciliation
 - Fintech
 - GraphQL
+- Financial-Services
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

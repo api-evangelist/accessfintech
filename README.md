@@ -64,30 +64,94 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AccessFintech operates **Synergy**, a post-trade data and workflow network for capital markets that
-connects buy-side firms, broker-dealers, custodians, hedge funds, order management systems and
-vendors onto a shared view of trade, settlement and collateral data. It normalizes fragmented data
-across securities, derivatives and alternatives, detects breaks across counterparties, and lets the
-parties to a trade resolve exceptions on one record instead of by email and reconciliation files.
+AccessFintech operates Synergy, a post-trade data and workflow network for capital markets that connects buy-side firms, broker-dealers, custodians, hedge funds, order management systems and vendors onto a shared view of trade, settlement and collateral data. The platform normalizes fragmented data across securities, derivatives and alternatives, detects breaks and exceptions across counterparties, and lets the parties to a trade resolve them collaboratively on a single record instead of by email and reconciliation files. AccessFintech describes Synergy as API-first, with bi-directional integrations, ingestion of JSON, XML, CSV and delimited text over push or pull, and Snowflake-native data sharing on AWS. The API surface is not self-serve: the Synergy application and its GraphQL and REST endpoints sit behind an Okta-backed customer login at login.accessfintech.com, and no public developer portal, reference or machine-readable specification is published.
 
-## API surface
+**Areas:** Company · Financial Services · Capital Markets · Post-Trade · Settlement · Data Networks · Reconciliation · Fintech · GraphQL
 
-AccessFintech markets Synergy as API-first, and the API is real — but it is **not public**. There is
-no developer portal, no API reference, no OpenAPI or AsyncAPI specification, no SDK, and no
-self-serve sign-up. Credentials are issued to onboarded network members.
+## AccessFintech on APIs.io
 
-What is publicly verifiable:
+Everything profiled for AccessFintech is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/accessfintech/](https://apis.io/providers/accessfintech/)** — or go straight to one of the APIs or properties below.
 
-| Surface | Finding |
+### APIs (1)
+
+- [Synergy Platform API](https://apis.io/apis/accessfintech/synergy-platform-api/) — The API surface behind Synergy, AccessFintech's post-trade collaboration network. The shipped web client calls a GraphQL endpoint at…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Accessfintech Authentication](https://apis.io/security/accessfintech/accessfintech-authentication/)
+- [Accessfintech Domain Security](https://apis.io/security/accessfintech/accessfintech-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Accessfintech Scopes](https://apis.io/scopes/accessfintech/accessfintech-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.accessfintech.com/)
+- [Support](https://www.accessfintech.com/contact/)
+- [Blog](https://www.accessfintech.com/blog/)
+- [Privacy policy](https://www.accessfintech.com/privacy-policy/)
+- [GitHub](https://github.com/accessfintech)
+
+## API Evangelist rating
+
+**Kin Score 18.6** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
 |---|---|
-| GraphQL | `https://api.accessfintech.com/gql` — configured in the Synergy web client's own public production bundle. Anonymous introspection refused at the CDN edge (403). |
-| REST | Same origin, via an `apollo-link-rest` link. `/api/docs` returns a real `401` (an authenticated docs route, not the SPA catch-all). |
-| Identity | Okta-hosted issuer at `https://login.accessfintech.com` serving full OIDC Discovery and RFC 8414 metadata anonymously — PKCE S256, DPoP, PAR, device code, dynamic client registration. |
-| Multi-party context | Requests carry `x-context-org-id` (acting organization), `x-csrf-token`, `x-correlation-id`. |
+| Discoverability | 66.1 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 17.1 |
 
-Not published: OpenAPI, AsyncAPI/webhooks, MCP server, A2A agent card, `security.txt`, trust center,
-status page, changelog, CLI, sandbox, or any API client SDK.
+**Agent readiness 15.1** — agent-aware
 
-- https://www.accessfintech.com/
-- https://www.accessfintech.com/platform/
-- https://forgeglobal.com/accessfintech_stock/
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+
+**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/accessfintech/](https://apis.io/providers/accessfintech/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AccessFintech: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/accessfintech/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).

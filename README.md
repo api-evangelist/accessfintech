@@ -84,14 +84,14 @@ Each property below is a page on APIs.io carrying the machine-readable artifact 
 
 Authentication, trust centre, and vulnerability disclosure.
 
-- [Accessfintech Authentication](https://apis.io/security/accessfintech/accessfintech-authentication/)
-- [Accessfintech Domain Security](https://apis.io/security/accessfintech/accessfintech-domain-security/)
+- [AccessFintech Authentication](https://apis.io/security/accessfintech/accessfintech-authentication/)
+- [AccessFintech Domain Security](https://apis.io/security/accessfintech/accessfintech-domain-security/)
 
 #### OAuth scopes (1)
 
 The permissions the API asks for.
 
-- [Accessfintech Scopes](https://apis.io/scopes/accessfintech/accessfintech-scopes/)
+- [AccessFintech Scopes](https://apis.io/scopes/accessfintech/accessfintech-scopes/)
 
 ## Where to find this API
 
@@ -105,18 +105,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 18.6** — emerging · rubric 0.24.0 · scored 2026-10-17
+**Kin Score 19.3** — emerging · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 66.1 |
 | Contract quality | 0.0 |
 | Contract governance | 18.2 |
-| Operational transparency | 2.6 |
+| Operational transparency | 4.8 |
 | Developer ergonomics | 19.0 |
-| Access clarity | 17.1 |
+| Access clarity | 23.4 |
 
-**Agent readiness 15.1** — agent-aware
+**Agent readiness 14.8** — agent-aware
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -139,8 +139,14 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Protected Resource Metadata | — |
 | Dynamic Client Registration | yes |
 | Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/accessfintech/](https://apis.io/providers/accessfintech/).
 
